@@ -118,9 +118,8 @@ function solve(prob::MOI.AbstractNLPEvaluator, x0;
     x = MOI.add_variables(solver, prob.num_var)
 
     for i = 1:prob.num_var
-        xi = MOI.SingleVariable(x[i])
-        MOI.add_constraint(solver, xi, MOI.LessThan(x_u[i]))
-        MOI.add_constraint(solver, xi, MOI.GreaterThan(x_l[i]))
+        MOI.add_constraint(solver, x[i], MOI.LessThan(x_u[i]))
+        MOI.add_constraint(solver, x[i], MOI.GreaterThan(x_l[i]))
         MOI.set(solver, MOI.VariablePrimalStart(), x[i], x0[i])
     end
 

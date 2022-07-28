@@ -1,5 +1,63 @@
-# Model
-include(joinpath(pwd(), "models/quadruped.jl"))
+# # Model
+# using Pkg
+# Pkg.activate(joinpath(@__DIR__,"../.."))
+# Pkg.instantiate()
+# import motion_planning: include_model, free_time_model, Quadruped, Discrete, FixedTime, Visualizer, render, initial_configuration, visualize!, linear_interpolation, control_bounds, state_bounds, include_objective, configuration_to_state, PenaltyObjective, quadratic_time_tracking_objective,velocity_objective, kinematics_1, nonlinear_stage_objective, MultiObjective, include_constraints
+# include_model("quadruped")
+include(joinpath(@__DIR__, "../../models/quadruped.jl"))
+
+# Dimensions
+# nq = 2 + 5 + 4            # configuration dimension
+# nu = 4 + 4                # control dimension
+# nc = 4                    # number of contact points
+# nf = 2                    # number of parameters for friction cone
+# nb = nc * nf
+# ns = 1
+
+# # World parameters
+# μ = 0.5      # coefficient of friction
+g = 9.81     # gravity
+
+# # ~Unitree A1
+# # Model parameters
+# m_torso = 4.713 + 4 * 0.696
+# m_thigh = 1.013
+# m_leg = 0.166
+
+# J_torso = 0.056579028 + 4 * 0.696 * 0.183^2.0
+# J_thigh = 0.005139339
+# J_leg = 0.003014022
+
+# # l_torso = 0.267
+# l_torso = 0.267
+# l_thigh = 0.2
+# l_leg = 0.2
+
+# # d_torso = 0.5 * l_torso - 0.0127
+# d_torso = 0.5 * l_torso + 0.012
+# d_thigh = 0.5 * l_thigh - 0.00323
+# d_leg = 0.5 * l_leg - 0.006435
+
+# n = 2 * nq
+# m = nu + nc + nb + nc + nb + ns
+# d = 0
+
+# idx_u = (1:nu)
+# idx_λ = nu .+ (1:nc)
+# idx_b = nu + nc .+ (1:nb)
+# idx_ψ = nu + nc + nb .+ (1:nc)
+# idx_η = nu + nc + nb + nc .+ (1:nb)
+# idx_s = nu + nc + nb + nc + nb .+ (1:ns)
+
+# qL = -Inf * ones(nq)
+# qU = Inf * ones(nq)
+
+# uL = -33.5 * ones(nu)
+# uU = 33.5 * ones(nu)
+
+# joint_friction = 0.1
+
+
 model = Quadruped{Discrete, FixedTime}(n, m, d,
 			  g, 0.1,
 			  l_torso, d_torso, m_torso, J_torso,
